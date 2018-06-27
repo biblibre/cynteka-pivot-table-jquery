@@ -37,9 +37,13 @@
 							opts.filterDimensions = sFilterDims.split(';'); 
 					}
 					
-					var configurationHtml = '<div class="' + opts.div11Class + '">' + opts.configLabel + '</div>';
-					if(!opts.configuration) {
-						configurationHtml = '';
+					var configurationHtml = '';
+					var configurationDialogHtml = '';
+					if (opts.configuration) {
+						configurationHtml = '<div class="' + opts.div11Class + '">' + opts.configLabel + '</div>';
+						if (null === document.getElementById(opts.pivotConfigDialogId)) {
+							configurationDialogHtml = '<div id="' + opts.pivotConfigDialogId + '" class="' + opts.configDialogClass + '"></div>'
+						}
 					}
 					$this.html('' + 
 							'<table class="' + opts.tableClass + '">' +
@@ -65,8 +69,8 @@
 							'      </div>' +
 							'    </td>' +
 							'  </tr>' +
-							'</table>' + 
-							'<div id="' + opts.pivotConfigDialogId + '" class="' + opts.configDialogClass + '"></div>'
+							'</table>' +
+							configurationDialogHtml
 							);
 					
 					
@@ -77,21 +81,26 @@
 					$this.find('.' + opts.cell22Class).resize(function(){
 						syncScrollAndSize($this, opts);
 					});
-					$this.find('.' + opts.div11Class).on('click', function(){
-						toggleConfig($this, opts);
-					});
-					createConfigDialog($this, opts);
-					$this.find('#' + opts.pivotConfigDialogId).dialog({
-						modal	: false,
-						title	: 'Pivot Table Configuration',
-						position:["right", "50px"],
-						beforeClose	: function() {
-							var $div11 = $this.find('.' + opts.div11Class);
-							$div11.removeClass(opts.configWindowActivatedClass);
-						},
-					});
-					jQuery('#' + opts.pivotConfigDialogId).dialog('close');
-			
+					if (opts.configuration) {
+						let instance = $this.find('#' + opts.pivotConfigDialogId).dialog('instance');
+						if (typeof instance === 'undefined') {
+							$this.find('.' + opts.div11Class).on('click', function(){
+								toggleConfig($this, opts);
+							});
+							createConfigDialog($this, opts);
+							$this.find('#' + opts.pivotConfigDialogId).dialog({
+								modal: false,
+								title: 'Pivot Table Configuration',
+								position:["right", "50px"],
+								autoOpen: false,
+								beforeClose: function() {
+									var $div11 = $this.find('.' + opts.div11Class);
+									$div11.removeClass(opts.configWindowActivatedClass);
+								},
+							});
+						}
+					}
+
 					syncScrollAndSize($this, opts);
 					incrementalDraw($this, [], [opts.verticalDimensions[0], opts.horizontalDimensions[0]], 0, 0, opts);
 					initExpandListeners($this, opts);
