@@ -934,8 +934,8 @@
 						}
 					}
 				}
-				$table.css({height:'10px'});
-				$table.css({height:'auto'});
+                //$table.css({height:'10px'}); Comented by mene on  11/1/2015 because modifies the parent
+				//$table.css({height:'auto'}); Comented by mene on  11/1/2015 because modifies the parent
 				syncDimensionsSizes($table, opts);
 			}
 			var values;
@@ -1179,14 +1179,14 @@
 		
 		if(!opts.autoSize) {
 			$table.find('.' + opts.div12Class).css({
-					'width' : ($div22.width() - scrollBarWidth) + 'px'
+					//'width' : ($div22.width() - scrollBarWidth) + 'px' Modified by mene
 				});
 		}
 		
 		var newHeight = $div22.height() - scrollBarWidth;
 		if(!opts.autoSize) {
 			$table.find('.' + opts.div21Class).css({
-					'height' : newHeight + 'px',
+					//'height' : newHeight + 'px',   commented by mene
 					'margin-bottom' : scrollBarWidth + 'px'
 				});
 		}
@@ -1678,7 +1678,7 @@ function doResizeWidth($table) {
 		width:(window.innerWidth - left) + 'px',
 	});
 	$table.find('.div12').css({
-		width:(window.innerWidth - left ) + 'px',
+		//width:(window.innerWidth - left ) + 'px',  modified by mene
 	});
 }	
 
