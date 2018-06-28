@@ -82,7 +82,7 @@
 						syncScrollAndSize($this, opts);
 					});
 					if (opts.configuration) {
-						let instance = $this.find('#' + opts.pivotConfigDialogId).dialog('instance');
+						var instance = $this.find('#' + opts.pivotConfigDialogId).dialog('instance');
 						if (typeof instance === 'undefined') {
 							$this.find('.' + opts.div11Class).on('click', function(){
 								toggleConfig($this, opts);

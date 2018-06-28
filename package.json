@@ -1,0 +1,21 @@
+{
+  "name": "cynteka-pivot-table-jquery",
+  "version": "0.10.0",
+  "description" : "This is a jQuery plugin that can be used on a website for data analysis, smart navigation, data input...",
+  "main": "js/jquery.cy-pivot.js",
+  "repository": "https://github.com/biblibre/cynteka-pivot-table-jquery.git",
+  "bugs" : "https://github.com/biblibre/cynteka-pivot-table-jquery/issues",
+  "author": "Sergey Grigorchuk <sergey.grigorchuk@gmail.com>",
+  "license": "MIT",
+  "keywords": ["jquery-plugin", "ecosystem:jquery", "pivot", "pivottable", "table", "analysis", "olap"],
+  "dependencies": {
+    "jquery": ">=1.7.1",
+    "jquery-ui": ">=1.9.1",
+    "jquery-cookie": ">=1.3.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-uglify": "^3.3.0"
+  }
+}
