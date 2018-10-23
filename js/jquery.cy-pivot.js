@@ -25,10 +25,10 @@
 			               options : opts
 			           });
 					
-					if(opts.cookiePrefix && opts.storeDimConfig) {
-						var sHorizontalDims = $.cookie(opts.cookiePrefix + 'horizontalDims');
-						var sVerticalDims = $.cookie(opts.cookiePrefix + 'verticalDims');
-						var sFilterDims = $.cookie(opts.cookiePrefix + 'filterDims');
+					if(opts.localStoragePrefix && opts.storeDimConfig) {
+						var sHorizontalDims = localStorage.getItem(opts.localStoragePrefix + 'horizontalDims');
+						var sVerticalDims = localStorage.getItem(opts.localStoragePrefix + 'verticalDims');
+						var sFilterDims = localStorage.getItem(opts.localStoragePrefix + 'filterDims');
 						if(sHorizontalDims && hasAllDims(opts.dimensions, sHorizontalDims) && hasAllDims(opts.dimensions, sVerticalDims))
 							opts.horizontalDimensions = sHorizontalDims.split(';');
 						if(sVerticalDims && hasAllDims(opts.dimensions, sHorizontalDims) && hasAllDims(opts.dimensions, sVerticalDims))
@@ -304,13 +304,13 @@
 				if(opts.configuration && opts.configuration.filterDimensions == true) {
 					opts.filterDimensions = fdims;
 				}
-				if(opts.cookiePrefix && opts.storeDimConfig) {
+				if(opts.localStoragePrefix && opts.storeDimConfig) {
 					var sHorizontalDims = opts.horizontalDimensions.join(';');
 					var sVerticalDims = opts.verticalDimensions.join(';'); 
 					var sFilterDims = opts.filterDimensions.join(';'); 
-					$.cookie(opts.cookiePrefix + 'horizontalDims', sHorizontalDims, {expires:15});
-					$.cookie(opts.cookiePrefix + 'verticalDims', sVerticalDims, {expires:15});
-					$.cookie(opts.cookiePrefix + 'filterDims', sFilterDims, {expires:15});
+					localStorage.setItem(opts.localStoragePrefix + 'horizontalDims', sHorizontalDims);
+					localStorage.setItem(opts.localStoragePrefix + 'verticalDims', sVerticalDims);
+					localStorage.setItem(opts.localStoragePrefix + 'filterDims', sFilterDims);
 				}
 				redraw($table, opts);
 			}
@@ -1276,7 +1276,7 @@
 		
 		configLabel					: 'Config',
 		
-		cookiePrefix				: 'cy-pivot-',
+		localStoragePrefix			: 'cy-pivot-',
 		storeDimConfig				: true,
 
 		dataCellRenderer	: function(items, colContext, rowContext, opts) {
