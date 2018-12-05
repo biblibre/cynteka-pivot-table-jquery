@@ -1,12 +1,12 @@
 /* Cynteka Pivot JQuery Plugin.
  * Copyright (C) Cynteka http://www.cynteka.com, 2011-2014
- * Author Sergey Grigorchuk sng@cynteka.com, sergey.grigorchuk@gmail.com 
+ * Author Sergey Grigorchuk sng@cynteka.com, sergey.grigorchuk@gmail.com
  */
 (function( $ ){
 	var methods = {
 			init : function(options) {
 				var opts = $.extend({}, $.fn.cypivot.defaults, options);
-				
+
 				var outThis = this;
 				if(opts.resizable) {
 					$(window).resize(function(){
@@ -24,7 +24,7 @@
 			               target : $this,
 			               options : opts
 			           });
-					
+
 					if(opts.localStoragePrefix && opts.storeDimConfig) {
 						var sHorizontalDims = localStorage.getItem(opts.localStoragePrefix + 'horizontalDims');
 						var sVerticalDims = localStorage.getItem(opts.localStoragePrefix + 'verticalDims');
@@ -32,11 +32,11 @@
 						if(sHorizontalDims && hasAllDims(opts.dimensions, sHorizontalDims) && hasAllDims(opts.dimensions, sVerticalDims))
 							opts.horizontalDimensions = sHorizontalDims.split(';');
 						if(sVerticalDims && hasAllDims(opts.dimensions, sHorizontalDims) && hasAllDims(opts.dimensions, sVerticalDims))
-							opts.verticalDimensions = sVerticalDims.split(';'); 
+							opts.verticalDimensions = sVerticalDims.split(';');
 						if(sFilterDims && hasAllDims(opts.dimensions, sFilterDims) && hasAllDims(opts.dimensions, sFilterDims))
-							opts.filterDimensions = sFilterDims.split(';'); 
+							opts.filterDimensions = sFilterDims.split(';');
 					}
-					
+
 					var configurationHtml = '';
 					var configurationDialogHtml = '';
 					if (opts.configuration) {
@@ -45,26 +45,26 @@
 							configurationDialogHtml = '<div id="' + opts.pivotConfigDialogId + '" class="' + opts.configDialogClass + '"></div>'
 						}
 					}
-					$this.html('' + 
+					$this.html('' +
 							'<table class="' + opts.tableClass + '">' +
 							'  <tr class="' + opts.topRowClass + '">' +
 							'    <td class="' + opts.cell11Class + '">' +
 							configurationHtml +
 							'    </td>' +
 							'    <td class="' + opts.cell12Class + '">' +
-							'      <div class="' + opts.div12Class + '">' + 
+							'      <div class="' + opts.div12Class + '">' +
 							'      </div>' +
 							'    </td>' +
 							'  </tr>' +
 							'  <tr class="' + opts.bottomRowClass + '">' +
 							'    <td class="' + opts.cell21Class + '">' +
-							'      <div class="' + opts.div21Class + '">' + 
+							'      <div class="' + opts.div21Class + '">' +
 							'      </div>' +
 							'    </td>' +
 							'    <td class="' + opts.cell22Class + '">' +
-							'      <div class="' + opts.div22Class + '-super">' + 
-							'      <div class="' + opts.div22Class + '">' + 
-							'        <table class="' + opts.pivotDataTableClass + '">' + 
+							'      <div class="' + opts.div22Class + '-super">' +
+							'      <div class="' + opts.div22Class + '">' +
+							'        <table class="' + opts.pivotDataTableClass + '">' +
 							'      </div>' +
 							'      </div>' +
 							'    </td>' +
@@ -72,8 +72,8 @@
 							'</table>' +
 							configurationDialogHtml
 							);
-					
-					
+
+
 					// Size/scroll synchronization  init
 					$this.find('.' + opts.div22Class).on('scroll', function(){
 						syncScrollAndSize($this, opts);
@@ -118,20 +118,20 @@
 				}
 				return res;
 			},
-			
+
 		options	: function(newData, reasonCell) {
 			var $this = $(this);
             var data = $this.data('cypivot');
 			return data.options;
 		},
-		
+
 		reload	: function(newData, reasonCell) {
 			return this.each(function(){
 		         var $this = $(this),
 		             data = $this.data('cypivot');
 		         if(newData)
 		        	 data.options.data=newData;
-		         
+
 		         if(reasonCell) {
 		        	 var $dataTable = $this.find('.' + data.options.div22Class + ' .' + data.options.pivotDataTableClass);
 		        	 var dataTable = $dataTable[0];
@@ -140,7 +140,7 @@
 		        		 var row = dataTable.rows[rowIdx];
 		        		 for(var colIdx = 0; colIdx < row.cells.length; colIdx++) {
 		        			 var cell = row.cells[colIdx];
-		        			 if(isSubContext(cell.colContext, reasonCell.colContext) && 
+		        			 if(isSubContext(cell.colContext, reasonCell.colContext) &&
 		        					 isSubContext(cell.rowContext, reasonCell.rowContext)) {
 		        				 cell.isCalculated = false;
 		        			 }
@@ -152,7 +152,7 @@
 		         }
 			});
 		},
-		
+
 		reconfig	: function(newOpts) {
 			var opts = $.extend({}, $.fn.cypivot.defaults, newOpts);
 			var $this = $(this);
@@ -161,7 +161,7 @@
 
 	}
 
-	
+
 	$.fn.cypivot = function(method) {
 		// Method calling logic
 	    if ( methods[method] ) {
@@ -170,9 +170,9 @@
 	    	return methods.init.apply( this, arguments );
 	    } else {
 	    	$.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
-	    }   		
+	    }
 	}
-	
+
 	function incrementalDraw($table, dimensions, context, row, col, opts) {
 		// Prepare callback that will be invoked when data is ready
 		var callBack = function(curData){
@@ -181,24 +181,24 @@
 			console.log("curData", curData);
 			console.log("values", values);
 			// drawDimension($div, opts, dimensions, context, curData) // fffff
-			
+
 			$pivotDataTable = $table.find('.' + opts.div22Class + ' .' + opts.pivotDataTableClass);
 
 			var $horizontalDimDiv = $table.find('.' + opts.div21Class);
 			var values = drawDimension($horizontalDimDiv, opts, opts.horizontalDimensions, [], curData);
 			insertRows($pivotDataTable[0], opts, 0, values.length);
-			
-			
+
+
 			var $verticalDimDiv = $table.find('.' + opts.div12Class);
 			values = drawDimension($verticalDimDiv, opts, opts.verticalDimensions, [], curData);
 			insertColumns($pivotDataTable[0], opts, 0, values.length, curData);
 
 			syncDimensionsSizes($table, opts);
 		};
-		
+
 		// Trying to get current data
 		var curData = opts.dataProvider(opts, dimensions, context, callBack);
-		
+
 		if(curData) {
 			// If method returns data - display it
 			callBack(curData);
@@ -209,7 +209,7 @@
 		var $dialog = $table.find('.' + opts.configDialogClass);
 		var busyDims = {};
 
-		var verticalDimensionsHtml = '<li class="' + opts.dimensionListTitleClass + '" vdims="true">' + opts.verticalDimensionListTitle + '</li>'; 
+		var verticalDimensionsHtml = '<li class="' + opts.dimensionListTitleClass + '" vdims="true">' + opts.verticalDimensionListTitle + '</li>';
 		for(var i = 0; i < opts.verticalDimensions.length; i++) {
 			var key = opts.verticalDimensions[i];
 			busyDims[key] = true;
@@ -219,8 +219,8 @@
 		if(!opts.configuration || !opts.configuration.verticalDimensions) {
 			verticalDimensionsHtml = '';
 		}
-		
-		var horizontalDimensionsHtml = '<li class="' + opts.dimensionListTitleClass + '" hdims="true">' + opts.horizontalDimensionListTitle + '</li>'; 
+
+		var horizontalDimensionsHtml = '<li class="' + opts.dimensionListTitleClass + '" hdims="true">' + opts.horizontalDimensionListTitle + '</li>';
 		for(var i = 0; i < opts.horizontalDimensions.length; i++) {
 			var key = opts.horizontalDimensions[i];
 			busyDims[key] = true;
@@ -230,14 +230,14 @@
 		if(!opts.configuration || !opts.configuration.horizontalDimensions) {
 			var horizontalDimensionsHtml = '';
 		}
-		
+
 		var filterDimensionsHtml = '<li class="' + opts.dimensionListTitleClass + '" fdims="true">' + opts.filterDimensionListTitle + '</li>';
 		for(var i = 0; i < opts.filterDimensions.length; i++) {
 			var key = opts.filterDimensions[i];
 			busyDims[key] = true;
 			var dim = opts.dimensions[key];
 			var filterValues = getDataValues(opts, [], key, '');
-			
+
 			var filterValuesHtml = '<ul>';
 			for(var idx = 0; idx < filterValues.length; idx++) {
 				var filterValue = filterValues[idx];
@@ -246,7 +246,7 @@
 			}
 			filterValuesHtml = filterValuesHtml + '</ul>';
 
-			
+
 			filterDimensionsHtml = filterDimensionsHtml + '<li dim="' + key + '">' + dim.label +
 			filterValuesHtml +
 			'</li>';
@@ -255,7 +255,7 @@
 			filterDimensionsHtml = '';
 		}
 
-		var dimensionsHtml = ''; 
+		var dimensionsHtml = '';
 		for(var key in opts.dimensions) {
 			if(busyDims[key] != true) {
 				var dim = opts.dimensions[key];
@@ -264,15 +264,15 @@
 		}
 
 		$dialog.append(
-				'<ul class="' + opts.firstDimensionListClass + '" style="padding-bottom:0px; margin-bottom:0px;">' + 
+				'<ul class="' + opts.firstDimensionListClass + '" style="padding-bottom:0px; margin-bottom:0px;">' +
 				'<li class="' + opts.dimensionListTitleClass + '">' + opts.dimensionListTitle + '</li>' +
 				'</ul>' +
-				'<ul class="' + opts.dimensionListClass + '" style="padding-top:0px; margin-top:0px;">' + 
-				dimensionsHtml + 				
-				horizontalDimensionsHtml + 
-				verticalDimensionsHtml + 
+				'<ul class="' + opts.dimensionListClass + '" style="padding-top:0px; margin-top:0px;">' +
+				dimensionsHtml +
+				horizontalDimensionsHtml +
+				verticalDimensionsHtml +
 				filterDimensionsHtml +
-				'</ul>' 
+				'</ul>'
 				);
 		$dialog.find('ul.' + opts.dimensionListClass).sortable({
 			cancel: '.' + opts.dimensionListTitleClass,
@@ -280,7 +280,7 @@
 				// Update pivot table when dimensions has been changed
 				var vdims = [], hdims = [], fdims=[], curdims=[];
 				$dialog.find('.' + opts.dimensionListClass + ' li').each(function(){
-					
+
 					var dim = jQuery(this).attr('dim');
 					if(dim) {
 						curdims[curdims.length] = dim;
@@ -306,8 +306,8 @@
 				}
 				if(opts.localStoragePrefix && opts.storeDimConfig) {
 					var sHorizontalDims = opts.horizontalDimensions.join(';');
-					var sVerticalDims = opts.verticalDimensions.join(';'); 
-					var sFilterDims = opts.filterDimensions.join(';'); 
+					var sVerticalDims = opts.verticalDimensions.join(';');
+					var sFilterDims = opts.filterDimensions.join(';');
 					localStorage.setItem(opts.localStoragePrefix + 'horizontalDims', sHorizontalDims);
 					localStorage.setItem(opts.localStoragePrefix + 'verticalDims', sVerticalDims);
 					localStorage.setItem(opts.localStoragePrefix + 'filterDims', sFilterDims);
@@ -316,7 +316,7 @@
 			}
 		});
 	}
-	
+
 	function toggleConfig($table, opts) {
 		if(opts.configuration) {
 			var $div11 = $table.find('.' + opts.div11Class);
@@ -329,7 +329,7 @@
 			}
 		}
 	}
-	
+
 	function getColIndex($div, opts) {
 		// Find Top level dimension div
 		var $top;
@@ -356,7 +356,7 @@
 		});
 		return index;
 	}
-	
+
 	function getRowIndex($div, opts) {
 		// Find Top level dimension div
 		var $top;
@@ -397,7 +397,7 @@
 		});
 		return contexts;
 	}
-	
+
 	function dimColSubLevelCount($div, opts) {
 		// Find Top level dimension div
 		var $top = $div.parent();
@@ -411,7 +411,7 @@
 		});
 		return index;
 	}
-	
+
 	function dimRowSubLevelCount($div, opts) {
 		// Find Top level dimension div
 		var $top = $div.parent();
@@ -432,7 +432,7 @@
 		var $horizontalDimDiv = $table.find('.' + opts.div21Class);
 		$horizontalDimDiv.html('');
 		// var curData = opts.dataProvider(opts, [], [opts.verticalDimensions[0], opts.horizontalDimensions[0]]);//  TODO
-		
+
 		// drawDimension($horizontalDimDiv, opts, opts.horizontalDimensions, [], curData);
 
 		var $verticalDimDiv = $table.find('.' + opts.div12Class);
@@ -446,17 +446,17 @@
 		*/
 		incrementalDraw($table, [], [opts.verticalDimensions[0], opts.horizontalDimensions[0]], 0, 0, opts);
 	}
-	
+
 	function drawDataTable($table, opts, curData) {
 		$pivotDataTable = $table.find('.' + opts.div22Class + ' .' + opts.pivotDataTableClass);
 		$pivotDataTable.html('');
-		
+
 		drawDataRows($table, $pivotDataTable, opts, [], curData);
 
 		fillDataValues($table, opts);
 		syncDimensionsSizes($table, opts);
 	}
-	
+
 	function initExpandListeners($table, opts) {
 		// Expand/Collapse column/row
 		// Columns
@@ -475,12 +475,12 @@
 					var totalWidth = getTotalWidth(pivotDataTable, firstColumn, countToDelete - 1);
 
 					// $this.parent().find('.' + opts.dimCellClass).animate({opacity:0}, 200);
-					
+
 					deleteColumns(pivotDataTable, firstColumn, countToDelete - 1, function(){
 						$this.parent().find('.' + opts.dimCellClass).remove();
-						
+
 						$this.width(totalWidth + "px")
-						
+
 						var width = -1;
 						for(var rowIdx = 0; rowIdx < pivotDataTable.rows.length; rowIdx++) {
 							var row = pivotDataTable.rows[rowIdx];
@@ -489,7 +489,7 @@
 								width = jQuery(cell).width();
 							}
 						}
-						
+
 						$this.removeClass(opts.expandedDimLabelClass).addClass(opts.collapsedDimLabelClass);
 						$this.parent().removeClass(opts.expandedDimCellClass).addClass(opts.collapsedDimCellClass);
 
@@ -516,7 +516,7 @@
 						resync = true;
 					}
 					syncDimensionsSizes($table, opts);
-					
+
 					onExpand = opts.onExpand;
 				};
 				// Create context
@@ -526,7 +526,7 @@
 				if(pivotContext.length == maxLevel) {
 					visibleDims.push(opts.verticalDimensions[pivotContext.length]);
 				}
-				
+
 				var data = opts.dataProvider(opts, context, visibleDims, callBack);//  TODO
 				if(data) {
 					callBack(data);
@@ -580,7 +580,7 @@
 			} else if($this.hasClass(opts.collapsedDimLabelClass)){
 				// Expand row
 				var pivotContext = this.parentElement.pivotContext;
-				
+
 				var rowIdx = getRowIndex($this, opts);
 				var callBack = function(curData) {
 					drawDimension($parent, opts, opts.horizontalDimensions, null, curData);
@@ -592,7 +592,7 @@
 						resync = true;
 					}
 					syncDimensionsSizes($table, opts);
-					
+
 					onExpand = opts.onExpand;
 
 				};
@@ -604,7 +604,7 @@
 				if(pivotContext.length == maxLevel) {
 					visibleDims.push(opts.horizontalDimensions[pivotContext.length]);
 				}
-				
+
 				var data = opts.dataProvider(opts, context, visibleDims, callBack);//  TODO
 				if(data) {
 					callBack(data);
@@ -636,7 +636,7 @@
 			return false;
 		});
 	}
-	
+
 	function createProviderContext(pivotContext, dimensions) {
 		var res = {};
 		for(var i = 0; i < pivotContext.length; i++) {
@@ -644,14 +644,14 @@
 		}
 		return res;
 	}
-	
+
 	function getVisibleDimensions($table, opts) {
 		var res = [];
 		getInnerVisibleDimensions($table, opts, opts.div21Class, opts.horizontalDimensions, res);
 		getInnerVisibleDimensions($table, opts, opts.div12Class, opts.verticalDimensions, res);
 		return res;
 	}
-	
+
 	function getInnerVisibleDimensions($table, opts, selector, dimensions, res) {
 		var max = 0;
 		$table.find('.' + selector + ' .' + opts.dimCellClass).each(function(){
@@ -662,7 +662,7 @@
 			res.push(dimensions[i]);
 		}
 	}
-	
+
 	/**
 	 * Calclulates max expanded level for vertical dimensions
 	 */
@@ -674,7 +674,7 @@
 		});
 		return max;
 	}
-	
+
 	/**
 	 * Calclulates max expanded level for horizontal dimensions
 	 */
@@ -686,7 +686,7 @@
 		});
 		return max;
 	}
-	
+
 	function getTotalWidth(table, firstColumn, columnCount) {
 		var res = 0;
 		var row = table.rows[0];
@@ -726,7 +726,7 @@
 						//*
 						var template = $("#cellTemplate").html();
 						html = _.template(template,{items:reduces, rowContext:rowContext, colContext:colContext, options:opts})
-						// var html = "555"; 
+						// var html = "555";
 						//*/
 					}
 					jQuery(cell).html('<div class="' + opts.divDataCellClass + '">' + html + '</div>');
@@ -735,7 +735,7 @@
 			}
 		}
 	}
-	
+
 	function contextToString(context) {
 		var s = '[';
 		for(var i = 0; i < context.length; i++) {
@@ -745,10 +745,10 @@
 			}
 			s = s + item.label;
 		}
-		s = s + ']'; 
+		s = s + ']';
 		return s;
 	}
-	
+
 	function insertColumns(table, opts, startColumnIdx, columnCount, curData) {
 		var $table = $(table);
 		var rowContexts = getRowContexts($table.parents('.cypivot'), opts);
@@ -773,11 +773,11 @@
 					html = opts.dataCellRenderer(reduces, colContext, rowContext, opts);
 				}
 				$(cellDiv).html(html);
-				
+
 			}
 		}
 	}
-	
+
 	function insertRows(table, opts, startRowIdx, rowCount, curData) {
 		var $table = $(table);
 		var rowContexts = getRowContexts($table.parents('.cypivot'), opts);
@@ -788,7 +788,7 @@
 			var row = table.insertRow(startRowIdx + rowIdx);
 			var rowContext = rowContexts[startRowIdx + rowIdx];
 			var html = [];
-			if(firstRow) { // When we add to empty table firstRow is null				
+			if(firstRow) { // When we add to empty table firstRow is null
 				for(var colIdx = 0; colIdx < firstRow.cells.length; colIdx++) {
 					var colContext = colContexts[colIdx];
 
@@ -806,7 +806,7 @@
 		}
 //		fillDataValues($table, opts);
 	}
-	
+
 	function deleteColumns(table, startColumnIdx, columnCount, finalizer) {
 		for(var rowIdx = 0; rowIdx < table.rows.length; rowIdx++) {
 			var row = table.rows[rowIdx];
@@ -816,23 +816,23 @@
 				row.deleteCell(startColumnIdx);
 			}
 		}
-		
+
 		if(finalizer) {
 			finalizer();
 		}
-		
+
 		// Case when closed empty level (no children)
 		if(columnCount == 0 && finalizer) {
 			// finalizer();
 		}
 	}
-	
+
 	function deleteRows(table, startRowIdx, rowCount) {
 		for(var rowIdx = 0; rowIdx < rowCount; rowIdx++) {
 			table.deleteRow(startRowIdx);
 		}
 	}
-	
+
 	function syncRowHeight($table, opts, newContext, $row) {
 		var selector = '.' + opts.div21Class;
 		for(var i = 0; i < newContext.length; i++) {
@@ -841,9 +841,9 @@
 		selector = selector + ' .' + opts.dimLabelClass;
 		var $dimLabelDiv = $table.find(selector).first();
 		$row.resize(function() {
-			$dimLabelDiv.css({height :($row.height() - 2 )+ "px"});
+			$dimLabelDiv.css({height: $row.height() + "px"});
 		});
-		$dimLabelDiv.css({height :($row.height() -2) + "px"});
+		$dimLabelDiv.css({height: $row.height() + "px"});
 	}
 
 	function syncDimensionsSizes($table, opts) {
@@ -852,7 +852,7 @@
 			syncColumnsWidth($table, opts);
 		}
 	}
-	
+
 	function syncColumnsWidth($table, opts) {
 		var $pivotDataTable = $table.find('.' + opts.div22Class + ' .' + opts.pivotDataTableClass);
 		var pivotDataTable = $pivotDataTable[0];
@@ -862,7 +862,7 @@
 		if(firstRow) {
 //			$table.find('.' + opts.dimLabelClass).not('.' + opts.expandedDimLabelClass).each(function(){
 			$table.find('.' + opts.dimLabelClass).each(function(){
-				
+
 				/*
 				var cell = firstRow.cells[i];
 				var $td = jQuery(cell);
@@ -880,24 +880,24 @@
 					// $dimLabelDiv.parent().css('width', '');
 					$dimLabelDiv.css('width', 'auto');
 					var newWidth = ($td.outerWidth())+ "px";
-					
+
 					if(i < firstRow.cells.length - 1) {
 						var nextCell = firstRow.cells[i + 1];
 						var $nextTd = jQuery(nextCell);
-						
+
 						var position = $td.position();
 						var nextPosition = $nextTd.position();
-						newWidth = nextPosition.left - position.left; 
+						newWidth = nextPosition.left - position.left;
 						// console.log("newWidth = " + newWidth);
 					}
-	
+
 					$dimLabelDiv.parent().css({width :newWidth});
 					i++;
 				}
 			});
 		}
 	}
-		
+
 	function syncRowsHeight($table, opts) {
 		var $pivotDataTable = $table.find('.' + opts.div22Class + ' .' + opts.pivotDataTableClass);
 		var pivotDataTable = $pivotDataTable[0];
@@ -908,16 +908,16 @@
 			var row = pivotDataTable.rows[i];
 			var $tr = jQuery(row);
 			var $dimLabelDiv = jQuery(this);
-			var newHeight = ($tr.innerHeight() - 2)+ "px";
+			var newHeight = $tr.outerHeight() + "px";
 			$dimLabelDiv.css({height:newHeight});
 			i++;
 		});
 	}
-		
+
 	function drawDataRows($table, $pivotDataTable, opts, context, curData) {
 		var dimName = opts.horizontalDimensions[context.length];
 		var newContext = clone(context);
-		
+
 		var dim = opts.dimensions[dimName];
 		if(dim) {
 			var onDataLoad = function(values) {
@@ -927,18 +927,18 @@
 					var pivotDataTable = $pivotDataTable[0];
 					var row = pivotDataTable.insertRow(-1);
 					var $row = jQuery(row);
-					$row.addClass(opts.dataRowClass + ' ' + 
+					$row.addClass(opts.dataRowClass + ' ' +
 							opts.levelClassPrefix + context.length + ' ' + opts.pivotIdClassPrefix + value.id  + ' ' +
 							'" pivotId = "' + value.id);
-	
+
 					drawDataCells($table, $pivotDataTable, $row, opts, newContext, []);
-					
+
 					if(opts.isExpanded(newContext) && newContext.length < opts.horizontalDimensions.length) {
 						drawDataRows($table, $pivotDataTable, opts, newContext, curData);
 						if(dim.showTotal && false) {
-							$pivotDataTable.append('<tr class="' + opts.dimCellClass + ' ' + 
-									opts.dataTotalCellClass + ' ' + opts.levelClassPrefix + context.length + ' ' + 
-									opts.pivotIdClassPrefix + value.id  + '" pivotId = "' + value.id + '"><div class="' + 
+							$pivotDataTable.append('<tr class="' + opts.dimCellClass + ' ' +
+									opts.dataTotalCellClass + ' ' + opts.levelClassPrefix + context.length + ' ' +
+									opts.pivotIdClassPrefix + value.id  + '" pivotId = "' + value.id + '"><div class="' +
 									opts.dimLabelClass + '">' + 'Total ' + value.label + '</div></tr>')
 						}
 					}
@@ -949,18 +949,18 @@
 			}
 			var values;
 			if(dim.values) {
-				values = dim.values(context, onDataLoad); 
+				values = dim.values(context, onDataLoad);
 			} else {
 				// curData = opts.dataProvider(opts, [], [opts.verticalDimensions[0], opts.horizontalDimensions[0]]);
-				values = getDataValues(curData, context, dimName, dim.sortFieldName);				
+				values = getDataValues(curData, context, dimName, dim.sortFieldName);
 			}
 			if(values != undefined) {
 				onDataLoad(values);
-			} 
-			
+			}
+
 		}
 	}
-	
+
 	function getDataValues(dimData, context, dimName, sortFieldName) {
 		var items = [];
 		// var dimData = opts.dimData ? opts.dimData : opts.data;
@@ -982,14 +982,14 @@
 				res.push(value);
 			}
 		}
-		
+
 		if(sortFieldName != undefined) {
 			res = res.sort(function(o1, o2){
 				if(o1[sortFieldName] < o2[sortFieldName])
 					return -1;
 				if(o1[sortFieldName] > o2[sortFieldName])
 					return 1;
-				return 0; 
+				return 0;
 			});
 		}
 		return res;
@@ -1037,7 +1037,7 @@
 		}
 		return true;
 	}
-	
+
 
 	/**
 	 * The function adds data cells into certain row in pivot data table
@@ -1045,28 +1045,28 @@
 	function drawDataCells($table, $pivotDataTable, $row, opts, rowContext, colContext, curData) {
 		var dimName = opts.verticalDimensions[colContext.length];
 		var newContext = clone(colContext);
-		
+
 		var dim = opts.dimensions[dimName];
 		var rowValue = rowContext[rowContext.length - 1];
 		var row = $row[0];
 		if(dim) {
 			// var values = dim.values(colContext);
-			// var curData = opts.dataProvider(opts, [], [opts.verticalDimensions[0], opts.horizontalDimensions[0]]);//  TODO 
+			// var curData = opts.dataProvider(opts, [], [opts.verticalDimensions[0], opts.horizontalDimensions[0]]);//  TODO
 			// opts.dataProvider()fffffffffff
 			var values = dim.values ? dim.values(colContext) : getDataValues(curData, colContext, dimName, dim.sortFieldName);
 			for(var valIdx = 0; valIdx < values.length; valIdx++) {
 				var value = values[valIdx];
-				newContext[colContext.length] = value;				
+				newContext[colContext.length] = value;
 
 				if(opts.isExpanded(newContext) && newContext.length < opts.verticalDimensions.length) {
 					drawDataCells($table, $pivotDataTable, $row, opts, rowContext, newContext);
 					if(dim.showTotal) {
 						var cell = row.insertCell(row.cells.length);
 						var $cell = jQuery(cell);
-						cell.className = opts.dataCellClass + " " + opts.dataTotalCellClass + " " + 
+						cell.className = opts.dataCellClass + " " + opts.dataTotalCellClass + " " +
 								opts.levelClassPrefix + colContext.length + " " + opts.pivotIdClassPrefix + value.id;
 						$cell.attr('pivotId', value.id);
-						
+
 						$cell.html('<div class="' + opts.divDataCellClass + '">' + 'Total ' + value.label + '</div>');
 						cell.rowContext = rowContext;
 						cell.colContext = colContext;
@@ -1074,16 +1074,16 @@
 				} else {
 					var cell = row.insertCell(row.cells.length);
 					var $cell = jQuery(cell);
-					$cell.addClass(opts.dataCellClass + " " + opts.levelClassPrefix + colContext.length + 
+					$cell.addClass(opts.dataCellClass + " " + opts.levelClassPrefix + colContext.length +
 							" " + opts.pivotIdClassPrefix + value.id);
 					$cell.attr('pivotId', value.id);
-					var rowLabel = typeof(rowValue) == 'object' ? rowValue.label : rowValue; 
+					var rowLabel = typeof(rowValue) == 'object' ? rowValue.label : rowValue;
 					$cell.html('<div class="' + opts.divDataCellClass + '">' + rowLabel + ' - ' + rowLabel + '</div>');
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Draws dimensions.
 	 * @param $div - jQuery html element which is clicked and should be displayed or whole dimensions panel so root dimensions will be displayed
@@ -1102,12 +1102,12 @@
 		}
 		var dimName = dimensions[context.length];
 		var newContext = clone(context);
-		
+
 		var dim = opts.dimensions[dimName];
 		var $totalDiv = $div.find('.' + opts.dimTotalCellClass);
 		if(dim) {
 			// var values = dim.values(context);
-			// var curData = opts.dataProvider(opts, [], [opts.verticalDimensions[0], opts.horizontalDimensions[0]]);//  TODO 
+			// var curData = opts.dataProvider(opts, [], [opts.verticalDimensions[0], opts.horizontalDimensions[0]]);//  TODO
 			var values = dim.values ? dim.values(context) : getDataValues(curData, context, dimName, dim.sortFieldName);
 			res = values;
 			if(values.length > 0) {
@@ -1130,18 +1130,18 @@
 				$dimCellDiv.addClass(opts.dimCellClass + " " + opts.dimCellClass + "-" + dimName + " " + opts.levelClassPrefix + context.length + " " +
 						opts.pivotIdClassPrefix + valueId);
 				$dimCellDiv.attr({
-					'pivotId' : valueId, 
+					'pivotId' : valueId,
 					'dimName': dimName,
 					'title':dim.label + " : " + unescape(valueLabel)
 					});
-				var cellHtml = opts.dimensionCellRenderer ? opts.dimensionCellRenderer(opts, newContext, false) : "<span title='" + dim.label + ": " + 
-						valueLabel + "'>"+ "<i class='" + opts.dimCellIconClass + "'></i>" + valueLabel + "</span>"; 
+				var cellHtml = opts.dimensionCellRenderer ? opts.dimensionCellRenderer(opts, newContext, false) : "<span title='" + dim.label + ": " +
+						valueLabel + "'>"+ "<i class='" + opts.dimCellIconClass + "'></i>" + valueLabel + "</span>";
 				$dimCellDiv.append('<div class="' + opts.dimLabelClass + ' ' + opts.dimLabelClass + '-' + dimName + ' ' +
-						(dim.className ? dim.className + " " : "") +						
+						(dim.className ? dim.className + " " : "") +
 						(newContext.length < dimensions.length ? opts.expandableDimLabelClass : '') +
-						'">' + cellHtml + 
+						'">' + cellHtml +
 						'</div>');
-				
+
 				var $divLabel = $dimCellDiv.children('.' + opts.dimLabelClass);
 				dimCellDiv.pivotContext = clone(newContext);
 
@@ -1170,28 +1170,28 @@
 				// $dimCellDiv.attr('pivotId', value.id);
 				$dimCellDiv.attr('dimName', dimName);
 				dimCellDiv.pivotContext = clone(context);
-				
-				var cellHtml = opts.dimensionCellRenderer ? opts.dimensionCellRenderer(opts, newContext, true) : ""; 
-				$dimCellDiv.append('<div class="' + 
+
+				var cellHtml = opts.dimensionCellRenderer ? opts.dimensionCellRenderer(opts, newContext, true) : "";
+				$dimCellDiv.append('<div class="' +
 						opts.dimLabelClass + '">' + 'Total' + '</div>');
 			}
 		}
 		return res;
 	}
-	
+
 	/**
 	 * Synchronizes sizes and scroll position of fixed columns with pivot itself.
 	 */
 	function syncScrollAndSize($table, opts) {
 		var scrollBarWidth = getScrollBarWidth();
 		var $div22 = $table.find('.' + opts.div22Class);
-		
+
 		if(!opts.autoSize) {
 			$table.find('.' + opts.div12Class).css({
 					//'width' : ($div22.width() - scrollBarWidth) + 'px' Modified by mene
 				});
 		}
-		
+
 		var newHeight = $div22.height() - scrollBarWidth;
 		if(!opts.autoSize) {
 			$table.find('.' + opts.div21Class).css({
@@ -1204,19 +1204,19 @@
 	}
 
 	$.fn.cypivot.defaults = {
-		
-		// Specifies if size of dimension sizes must be synced. Sometimes it should be false, if block sizes are equals 
-		// and specified in CSS. In this case pivot table works faster. 
+
+		// Specifies if size of dimension sizes must be synced. Sometimes it should be false, if block sizes are equals
+		// and specified in CSS. In this case pivot table works faster.
 		syncDimensionCellSizes	: true,
-		
+
 		//Specifies if pivot table should be resize when window is resized.
 		resizable				: true,
 		resizableWidth			: true,
 		resizableHeight			: true,
 		autoSize				: false,
 
-		// Default classes 
-		tableClass 			: 'cypivot',	
+		// Default classes
+		tableClass 			: 'cypivot',
 		topRowClass 		: 'top-row',
 		bottomRowClass 		: 'bottom-row',
 		cell11Class 		: 'cell11',
@@ -1228,11 +1228,11 @@
 		div12Class 			: 'div12',
 		div21Class 			: 'div21',
 		div22Class 			: 'div22',
-		
+
 		pivotDataTableClass	: 'pivot-data-table',
 		dimLabelClass		: 'dim-label',
 		dimCellIconClass	: 'dim-cell-icon',
-		
+
 		dimCellClass		: 'dim-cell',
 		expandableDimLabelClass : 'expandable-dim-label',
 		expandedDimLabelClass 	: 'expanded-dim-label',
@@ -1242,7 +1242,7 @@
 		dimTotalCellClass	: 'dim-total-cell',
 		dataTotalCellClass	: 'data-total-cell',
 		levelClassPrefix	: 'level-',
-		
+
 		dataRowClass		: 'data-row',
 		dataCellClass		: 'data-cell',
 		divDataCellClass	: 'div-data-cell',
@@ -1252,7 +1252,7 @@
 		horizontalDimensionListTitle	: 'Rows',
 		verticalDimensionListTitle	: 'Columns',
 		filterDimensionListTitle	: 'Filters',
-		
+
 		configWindowActivatedClass	: 'config-window-activated',
 		dimensionListClass	: 'dimension-list',
 		firstDimensionListClass	: 'first-dimension-list',
@@ -1260,92 +1260,92 @@
 		verticalDimensionListClass	: 'vertical-dimension-list',
 		horizontalDimensionListClass: 'horizontal-dimension-list',
 		filterDimensionListClass	: 'filter-dimension-list',
-		
+
 		pivotIdClassPrefix	: 'pivot-id-',
 		pivotConfigDialogId	: 'pivot-config-dialog',
-		
+
 		isExpanded			: function(context){
 			return context.length == 0;
 		},
-		
+
 		configuration 		: {
 			horizontalDimensions 	: true,
 			verticalDimensions 		: true,
 			filterDimensions 		: false,
 		},
-		
+
 		configLabel					: 'Config',
-		
+
 		localStoragePrefix			: 'cy-pivot-',
 		storeDimConfig				: true,
 
 		dataCellRenderer	: function(items, colContext, rowContext, opts) {
-			
+
 			var value = "";
 			for(var i = 0; i < opts.valueDataFields.length; i++) {
 				var valueDataField = opts.valueDataFields[i];
-				value = value + "<span class='value-" + valueDataField + "'>" + items['default'].sum[valueDataField] + "</span> ";  
-			}				
+				value = value + "<span class='value-" + valueDataField + "'>" + items['default'].sum[valueDataField] + "</span> ";
+			}
 			return value;
 		},
-		
-		dataProvider : // null, 
+
+		dataProvider : // null,
 		function(opts, context, visibleDims)
 		{
 			return opts.data;
 		},
-		
+
 		dimensionCellRenderer	 : null // This function(opts, context, isTotal) should render dimension cell
 			/* Example
 		function(opts, context, isTotal) {
 			return '<span style="color:red;">' + context[context.length - 1].label + '</span>';
 		}*/
-		, 
-		
+		,
+
 		dimensions			: {
-			dim1 : 
+			dim1 :
 			{
-				label	:'Colors', 
+				label	:'Colors',
 				values	: function(context) {
 					return [{id:1, label:'Red'}, {id:2, label:'Blue'}, {id:3, label:'Green'}];
 				},
 				showTotal : true,
 		    },
-			dim2 : 
+			dim2 :
 			{
-				label	:'Cities', 
+				label	:'Cities',
 				values	: function(context) {
 					return [{id:1, label:'Saint-Petersburg'}, {id:2, label:'Moscow'}, {id:3, label:'London'}, {id:4, label:'Paris'}];
 				},
 				showTotal : true,
 		    },
-			dim3 : 
+			dim3 :
 			{
-				label	:'Shapes', 
+				label	:'Shapes',
 				values	: function(context) {
 					return [{id:1, label:'Round'}, {id:2, label:'Square'}, {id:3, label:'Star'}, {id:4, label:'Ellipse'}];
 				},
 				showTotal : true,
 		    },
-			dim4 : 
+			dim4 :
 			{
-				label	:'Planets', 
+				label	:'Planets',
 				values	: function(context) {
 					return [{id:1, label:'Earth'}, {id:2, label:'Moon'}, {id:3, label:'Mars'}, {id:4, label:'Neptune'}];
 				},
 				showTotal : true,
 		    },
-			dim5 : 
+			dim5 :
 			{
-				label	:'Geo', 
+				label	:'Geo',
 				values	: function(context) {
 					return [{id:1, label:'Asia'}, {id:2, label:'Africa'}, {id:3, label:'Europe'}, {id:4, label:'America'}];
 				},
 				showTotal : true,
 		    },
-			dim6 : 
+			dim6 :
 			{
-				label	:'Lessons', 
+				label	:'Lessons',
 				values	: function(context) {
 					return [{id:1, label:'Phisics'}, {id:2, label:'Chemistry'}, {id:3, label:'Math'}, {id:4, label:'Geography'}];
 				},
@@ -1358,7 +1358,7 @@
 //		horizontalDimensions: ['dim1'],
 		verticalDimensions	: ['dim2'],
 		filterDimensions	: [],
-		
+
 		data				: [
 		    				    {
 		    				    	dim1	: 'Red',
@@ -1397,7 +1397,7 @@
 		    				    	value	: 1,
 		    				    },
 		    				   ],
-		
+
 		map				: function(rowContext, colContext, data) {
 			var res = [];
 			var strictedItems = [];
@@ -1432,25 +1432,25 @@
 					strictedItems[strictedItems.length] = item;
 				}
 				//*/
-				
+
 			}
 			return {
-				'default':res, 
+				'default':res,
 				stricted:strictedItems
 				};
 		},
-		
+
 		valueDataFields : ['value'],
-		
+
 		/* Reduces is an array of objects. Each object specifies what 'map' items it requires and it puts result(s) into reduces map.
 		 * So the only reduce function can calculate 'sum', 'max', 'min', 'avg', 'count' etc. values.
-		 */ 
+		 */
 		reduce 		: function(mapItems) {
 			var reduces = {};
-			
+
 			for(itemsKey in mapItems) {
 				var items = mapItems[itemsKey];
-				var sum = {};				
+				var sum = {};
 				var count = {};
 				var max = {}, min = {};
 
@@ -1461,7 +1461,7 @@
 					count[valueDataField] = items.length;
 				}
 				*/
-				
+
 				for(var j = 0; j < this.valueDataFields.length; j++) {
 					var valueDataField = this.valueDataFields[j];
 					var curSum = 0;
@@ -1482,10 +1482,10 @@
 					sum[valueDataField] = curSum;
 					max[valueDataField] = curMax;
 					min[valueDataField] = curMin;
-					
+
 				}
 				/*
-				 * 
+				 *
 				for(var i = 0; i < items.length; i++) {
 					var item = items[i];
 					for(var j = 0; j < this.valueDataFields.length; j++) {
@@ -1522,11 +1522,11 @@
 			}
 			return reduces;
 		},
-		
+
 		reduces			: [
 		   {
 				valueDataFields : ['value'],
-			   	map : 'default', 
+			   	map : 'default',
 				reduce : function(items, reduces) {
 					var sum = {};
 					var count = {};
@@ -1567,7 +1567,7 @@
 					return sum;
 				}
 		   },
-		],		
+		],
 };
 
 function clone(o) {
@@ -1616,7 +1616,7 @@ function applyFilter2(test, filter) {
 		}
 		//if(o1 != Number.POSITIVE_INFINITY) {
 			if(filterItem.id != o2) {// && o2 != -1) {
-				
+
 				return false;
 			}
 		//}
@@ -1673,13 +1673,13 @@ function getScrollBarWidth () {
 	var w1 = inner.offsetWidth;
 	outer.style.overflow = 'scroll';
 	var w2 = inner.offsetWidth;
-	if (w1 == w2) 
+	if (w1 == w2)
 		w2 = outer.clientWidth;
 
 	document.body.removeChild (outer);
 
 	return (w1 - w2);
-}	
+}
 
 function doResizeWidth($table) {
 	var left = $table.find('.div22').offset().left;
@@ -1689,7 +1689,7 @@ function doResizeWidth($table) {
 	$table.find('.div12').css({
 		//width:(window.innerWidth - left ) + 'px',  modified by mene
 	});
-}	
+}
 
 function doResizeHeight($table) {
 	var top = $table.find('.div22').offset().top;
@@ -1699,13 +1699,13 @@ function doResizeHeight($table) {
 	$table.find('.div21').css({
 		height:(window.innerHeight - top) + 'px',
 	});
-}	
+}
 
 function isNumber(o) {
     return typeof o === 'number' && isFinite(o);
 }
 
-// Checks if c2 is subcontext for c1 (all fields from c1 are equals to fields in c2) 
+// Checks if c2 is subcontext for c1 (all fields from c1 are equals to fields in c2)
 function isSubContext(c1, c2) {
 	if(c2.length < c1.length) {
 		return false;
@@ -1721,7 +1721,7 @@ function hasAllDims(allDims, dims) {
 	dims = dims.split(";");
 	for(var i = 0; i < dims.length; i++) {
 		var dimName = dims[i]; //.trim();
-		var value = allDims[dimName]; 
+		var value = allDims[dimName];
 		if(value == undefined) {
 			return false;
 		}
