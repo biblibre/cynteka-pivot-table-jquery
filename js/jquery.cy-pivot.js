@@ -348,7 +348,7 @@
 					return false;
 				} else {
 					var $this = $(this);
-					if($this.parent().children('.' + opts.dimCellClass).size() == 0) {
+					if($this.parent().children('.' + opts.dimCellClass).length == 0) {
 						index++;
 					}
 				}
@@ -405,7 +405,7 @@
 		var $div0 = $div[0];
 		$top.find('.' + opts.dimLabelClass).each(function() {
 			var $this = $(this);
-			if($this.parent().children('.' + opts.dimCellClass).size() == 0) {
+			if($this.parent().children('.' + opts.dimCellClass).length == 0) {
 				index++;
 			}
 		});
@@ -417,7 +417,7 @@
 		var $top = $div.parent();
 		var index = 0;
 		var $div0 = $div[0];
-		index = $top.find('.' + opts.dimLabelClass).not($div0).size();
+		index = $top.find('.' + opts.dimLabelClass).not($div0).length;
 		/*
 		$top.find('.' + opts.dimLabelClass).each(function() {
 			if($div[0] != this) {
@@ -722,7 +722,7 @@
 					var html = "";
 					if(opts.dataCellRenderer) {
 						html = opts.dataCellRenderer(reduces, colContext, rowContext, opts);
-					} else if($("#cellTemplate").size() > 0){
+					} else if($("#cellTemplate").length > 0){
 						//*
 						var template = $("#cellTemplate").html();
 						html = _.template(template,{items:reduces, rowContext:rowContext, colContext:colContext, options:opts})
@@ -1121,7 +1121,7 @@
 				value.dimName = dimName;
 				newContext[context.length] = value;
 				var dimCellDiv = document.createElement('div');
-				if($totalDiv.size() > 0) {
+				if($totalDiv.length > 0) {
 					dimCellDiv = $div[0].insertBefore(dimCellDiv, $totalDiv[0]);
 				} else {
 					dimCellDiv = $div[0].appendChild(dimCellDiv);
@@ -1159,7 +1159,7 @@
 			}
 
 			// Show total column if it does not exist, if it's not top level and it's vertical
-			if($totalDiv.size() == 0 && context.length > 0 && dimensions == opts.verticalDimensions) {
+			if($totalDiv.length == 0 && context.length > 0 && dimensions == opts.verticalDimensions) {
 				var dimCellDiv = document.createElement('div');
 				dimCellDiv = $div[0].appendChild(dimCellDiv);
 				var $dimCellDiv = jQuery(dimCellDiv);
