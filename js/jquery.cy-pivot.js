@@ -178,8 +178,6 @@
 		var callBack = function(curData){
 			var dimName = opts.verticalDimensions[0];
 			var values = getDataValues(curData, context, dimName, '');
-			console.log("curData", curData);
-			console.log("values", values);
 			// drawDimension($div, opts, dimensions, context, curData) // fffff
 
 			$pivotDataTable = $table.find('.' + opts.div22Class + ' .' + opts.pivotDataTableClass);
@@ -888,7 +886,6 @@
 						var position = $td.position();
 						var nextPosition = $nextTd.position();
 						newWidth = nextPosition.left - position.left;
-						// console.log("newWidth = " + newWidth);
 					}
 
 					$dimLabelDiv.parent().css({width :newWidth});
