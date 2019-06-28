@@ -1,6 +1,6 @@
 {
   "name": "cynteka-pivot-table-jquery",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "description": "This is a jQuery plugin that can be used on a website for data analysis, smart navigation, data input...",
   "main": "js/jquery.cy-pivot.js",
   "repository": "https://github.com/biblibre/cynteka-pivot-table-jquery.git",
